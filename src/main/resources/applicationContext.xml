@@ -2,9 +2,9 @@
 <beans
         xmlns="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:p="http://www.springframework.org/schema/p" xmlns:cache="http://www.springframework.org/schema/cache"
         xsi:schemaLocation="http://www.springframework.org/schema/beans
-                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
     <bean id="a1" class="com.fluex404.ci.model.Address">
         <constructor-arg value="Bogor"/>
         <constructor-arg value="West Java"/>
@@ -90,5 +90,66 @@
     <bean id="qutionInheritance" class="com.fluex404.ci.model.Question" parent="q">
 
     </bean>
+
+    <!-- SETTER INJECTION -->
+    <bean id="obj" class="com.fluex404.si.model.Employee" >
+        <property name="id">
+            <value type="java.lang.Integer">101</value>
+        </property>
+        <property name="name">
+            <value type="java.lang.String">Isa</value>
+        </property>
+        <property name="address">
+            <ref bean="address1"/>
+        </property>
+    </bean>
+    <bean id="address1" class="com.fluex404.si.model.Address">
+        <property name="addressLine1">
+            <value>Uveve osas</value>
+        </property>
+        <property name="city">
+            <value>Bogor</value>
+        </property>
+        <property name="country">
+            <value>Indonesia</value>
+        </property>
+        <property name="state">
+            <value>West Java</value>
+        </property>
+    </bean>
+    <bean id="b1" class="com.fluex404.autowire.model.B"/>
+
+    <!-- AUTOWIRE -->
+    <bean id="a" class="com.fluex404.autowire.model.A" autowire="constructor"/>
+
+    <!-- Factory Method -->
+    <!-- it's own class -->
+<!--    <bean id="afm" class="com.fluex404.fm.A" factory-method="getA"/>-->
+    <!-- static method -->
+    <bean id="p" class="com.fluex404.fm.PrintableFactory" factory-method="getPrintable"/>
+    <bean id="p2" class="com.fluex404.fm.PrintableFactory" factory-method="getPrintable2"/>
+    <!-- non static method -->
+    <bean id="p3" class="com.fluex404.fm.PrintableFactory" factory-method="print" factory-bean="p"/>
+
+    <!-- Spring AOP DTD -->
+    <bean id="obj2" class="com.fluex404.aop.A"/>
+    <bean id="ba" class="com.fluex404.aop.BeforeAdvisor"/>
+    <bean id="aa" class="com.fluex404.aop.AfterAdvisor"/>
+
+    <bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="obj2"/>
+        <property name="interceptorNames">
+            <list>
+                <value>ba</value>
+                <value>aa</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Spring AOP aspect -->
+    <bean id="opBean" class="com.fluex404.aopaspectj.Operation"/>
+    <bean id="trackMyBean" class="com.fluex404.aopaspectj.TrackOperation"/>
+
+    <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"/>
 
 </beans>

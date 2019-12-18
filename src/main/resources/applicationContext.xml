@@ -164,6 +164,14 @@
         <property name="lazyInit" value="true"/>
     </bean>
     <bean id="edao" class="com.fluex404.jdbc.dao.impl.EmployeeDaoImpl">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <constructor-arg ref="jdbcTemplate"/>
+        <constructor-arg ref="myUtils"/>
+        <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="ds"/>
+    </bean>
+
+    <!-- My Utils -->
+    <bean id="myUtils" class="com.fluex404.jdbc.utils.impl.MyUtilsImpl" />
 </beans>

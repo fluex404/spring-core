@@ -25,6 +25,10 @@ public class SpringAnnotaionsExample {
         UserService userService = context.getBean(UserService.class);
         System.out.println(userService.getDatabaseDriver());
 
+        System.out.println("Primary action");
+        DataBaseDriver primaryDriver = context.getBean(DataBaseDriver.class);
+        System.out.println(primaryDriver.getInfo());
+
         context.close();
     }
 }
@@ -136,6 +140,7 @@ class AppConfig{
         return oracleDriver;
     }
     @Bean
+    @Primary
     DataBaseDriver mysqlDriver(){
         return new MySQLDriver();
     }
